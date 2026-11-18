@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Wardrobe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<style>
+:root{--bg:#fbf4e4;--ink:#2b2740;--mute:#767089;--line:#eadfc6;--accent:#d6457f;--card:#f1ebff;--p1:#ffb8d6;--p2:#b9e0ff;--p3:#c5f0dc;--p4:#fff1b8;--on:#2b2740;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1824;--ink:#f6f1fb;--mute:#a69fba;--line:#3a3350;--accent:#ff9ec7;--card:#262234;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1824;--ink:#f6f1fb;--mute:#a69fba;--line:#3a3350;--accent:#ff9ec7;--card:#262234;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.6 Jost,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{text-align:center;padding:36px 0 14px}
+h1{font:400 clamp(44px,11vw,104px)/.95 "Bodoni Moda",Didot,"Times New Roman",serif;letter-spacing:.01em;margin:0}
+.tag{font-family:"Bodoni Moda",Didot,Georgia,serif;font-style:italic;color:var(--mute);margin:10px 0 0;font-size:18px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-top:4px solid var(--p1);border-bottom:4px solid var(--p2);display:flex;justify-content:center;gap:clamp(14px,5vw,56px);padding:12px 8px;z-index:5;flex-wrap:wrap}
+nav a,nav button{color:var(--ink);text-decoration:none;font:inherit;font-size:15px;letter-spacing:.04em;background:none;border:0;cursor:pointer;padding:0}
+nav a:hover,nav a:focus-visible,nav button:hover,nav button:focus-visible{color:var(--accent);outline:none;text-decoration:underline;text-underline-offset:6px}
+section{padding:64px 0 24px}
+h2{font:400 clamp(30px,6vw,52px)/1.05 "Bodoni Moda",Didot,Georgia,serif;margin:0 0 6px}
+h2 i{color:var(--accent)}
+.lede{color:var(--mute);max-width:52ch;margin:0 0 28px}
+.rule{border:0;border-top:3px solid var(--p3);margin:0 0 28px}
+.seg{display:flex;border:1px solid var(--ink);width:max-content;max-width:100%;margin-bottom:18px}
+.seg button{background:none;color:var(--ink);border:0;padding:9px 20px;font:inherit;cursor:pointer;border-right:1px solid var(--ink)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--p1);color:var(--on)}
+.drop{border:2px dashed var(--p1);padding:44px 20px;text-align:center;cursor:pointer;background:var(--card)}
+.drop:hover,.drop.over,.drop:focus-visible{border-color:var(--accent);outline:none}
+.drop b{font:italic 400 22px "Bodoni Moda",Georgia,serif;display:block}
+.drop span{color:var(--mute);font-size:14px}
+.btn{background:var(--p1);color:var(--on);border:1px solid var(--p1);padding:12px 26px;font:inherit;letter-spacing:.04em;cursor:pointer}
+.btn:hover,.btn:focus-visible{background:var(--p2);border-color:var(--p2);color:var(--on);outline:none}
+.btn:disabled{opacity:.6;cursor:wait}
+.msg{min-height:24px;margin-top:12px;color:var(--accent);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:22px}
+.item{position:relative}
+.item .ph,.look .ph{aspect-ratio:3/4;background:var(--card);overflow:hidden}
+.item img,.look img{width:100%;height:100%;object-fit:cover;display:block}
+.item p{margin:8px 0 0;font:italic 400 15px "Bodoni Moda",Georgia,serif;color:var(--mute)}
+.item .x{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);cursor:pointer;font-size:16px;line-height:1;opacity:.92}
+.item .x:hover,.item .x:focus-visible{background:var(--p1);color:var(--on);outline:none}
+.empty{color:var(--mute);font:italic 400 20px "Bodoni Moda",Georgia,serif;padding:30px 0}
+.look-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:6px 0 22px}
+.look figure{margin:0}
+.look figcaption{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font:italic 400 16px "Bodoni Moda",Georgia,serif}
+.look figcaption button{background:none;border:0;color:var(--accent);cursor:pointer;font:300 14px Jost,sans-serif;text-decoration:underline;text-underline-offset:4px}
+.login{max-width:380px;margin:30px auto 0;padding:28px;background:var(--card);border-top:4px solid var(--p1)}
+.login h2{font-size:32px;margin-bottom:16px}
+.login label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+.login input{width:100%;padding:11px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.login input:focus{outline:2px solid var(--p2);border-color:var(--p2)}
+.login .btn{margin-top:20px;width:100%}
+footer{border-top:1px solid var(--ink);margin-top:70px;padding:20px 0 40px;text-align:center;color:var(--mute);font-size:13px}
+@media (max-width:520px){.look-row{gap:8px}.drop{padding:34px 12px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>My Wardrobe</h1>
+<p class="tag">Everything you own, styled every day</p>
+</header>
+</div>
+
+<div class="wrap" id="loginView" hidden>
+<div class="login">
+<h2>Sign in</h2>
+<div id="loginForm">
+<label for="em">Email</label><input id="em" type="email" autocomplete="email">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+<button class="btn" id="loginBtn" type="button">Sign in</button>
+<div class="msg" id="loginMsg" role="status"></div>
+</div>
+</div>
+</div>
+
+<div id="appView" hidden>
+<nav aria-label="Sections">
+<a href="#upload">1. Add pieces</a><a href="#collection">2. Collection</a><a href="#looks">3. Looks</a><button id="out" type="button">Sign out</button>
+</nav>
+<main class="wrap">
+<section id="upload">
+<h2>Add to your <i>wardrobe</i></h2>
+<p class="lede">Choose what kind of piece you are adding, then select photos. They are saved privately to your account, so they appear on every device you sign in on.</p>
+<hr class="rule">
+<div class="seg" id="upCat" role="group" aria-label="Category">
+<button aria-pressed="true" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button>
+</div>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose photos">
+<b>Drop photos here</b><span>or tap to choose from your device</span>
+</div>
+<input type="file" id="file" accept="image/*" multiple hidden>
+<div class="msg" id="upMsg" role="status"></div>
+</section>
+
+<section id="collection">
+<h2>The <i>collection</i></h2>
+<p class="lede" id="count"></p>
+<hr class="rule">
+<div class="seg" id="filter" role="group" aria-label="Filter">
+<button aria-pressed="true" data-c="all">All</button><button aria-pressed="false" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button>
+</div>
+<div class="grid" id="grid"></div>
+</section>
+
+<section id="looks">
+<h2>Today’s <i>look</i></h2>
+<p class="lede">A top, a bottom and shoes, chosen from what you own. Swap a single piece or style a whole new outfit.</p>
+<hr class="rule">
+<div id="lookBox"></div>
+</section>
+</main>
+<footer>Your photos are private and stored in your own account.</footer>
+</div>
+
+<script>
+(function(){
+var SB_URL="https://hvvuttfiifjqypahucxs.supabase.co";
+var SB_KEY="sb_publishable_KcshOHaYXv4ZywHpB8eP3g_wuKoIG6d";
+var CATS={top:"Top",bottom:"Bottom",shoes:"Shoes"};
+var $=function(s){return document.querySelector(s)};
+var sb=window.supabase.createClient(SB_URL,SB_KEY);
+var user=null,items=[],upCat="top",flt="all",look={top:null,bottom:null,shoes:null},timer=null;
+
+function show(signedIn){$("#loginView").hidden=signedIn;$("#appView").hidden=!signedIn}
+
+async function loadItems(){
+var r=await sb.from("wardrobe_items").select("id,category,path,created_at").order("created_at",{ascending:false});
+if(r.error){$("#upMsg").textContent="Could not load your wardrobe: "+r.error.message;return}
+var rows=r.data||[],urls={};
+if(rows.length){
+var s=await sb.storage.from("wardrobe").createSignedUrls(rows.map(function(x){return x.path}),3600);
+if(s.data)s.data.forEach(function(u){urls[u.path]=u.signedUrl})}
+items=rows.map(function(x){return{id:x.id,cat:x.category,path:x.path,t:Date.parse(x.created_at),src:urls[x.path]||""}});
+renderGrid();renderLook(true)}
+
+function shrink(file){return new Promise(function(res,rej){
+var fr=new FileReader();fr.onerror=rej;
+fr.onload=function(){var im=new Image();im.onerror=rej;
+im.onload=function(){var m=1000,s=Math.min(1,m/Math.max(im.width,im.height));
+var c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+c.toBlob(function(b){b?res(b):rej()},"image/jpeg",.82)};
+im.src=fr.result};
+fr.readAsDataURL(file)})}
+
+async function addFiles(files){
+var ok=0,bad=0,m=$("#upMsg");m.textContent="Uploading…";
+for(var i=0;i<files.length;i++){
+if(!/^image\//.test(files[i].type)){bad++;continue}
+try{
+var blob=await shrink(files[i]);
+var path=user.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
+var up=await sb.storage.from("wardrobe").upload(path,blob,{contentType:"image/jpeg"});
+if(up.error)throw up.error;
+var ins=await sb.from("wardrobe_items").insert({category:upCat,path:path});
+if(ins.error){await sb.storage.from("wardrobe").remove([path]);throw ins.error}
+ok++}catch(e){bad++}}
+await loadItems();
+m.textContent=(ok?ok+" added to "+CATS[upCat].toLowerCase()+"s. ":"")+(bad?bad+" could not be uploaded — use JPG or PNG photos and check your connection.":"")}
+
+function renderGrid(){
+var list=items.filter(function(i){return flt==="all"||i.cat===flt});
+var n=function(c){return items.filter(function(i){return i.cat===c}).length};
+$("#count").textContent=items.length?items.length+" pieces: "+n("top")+" tops, "+n("bottom")+" bottoms, "+n("shoes")+" shoes.":"";
+var g=$("#grid");g.innerHTML="";
+if(!list.length){g.innerHTML='<div class="empty">'+(items.length?"Nothing in this category yet.":"Your wardrobe is empty. Add your first piece above.")+"</div>";return}
+list.forEach(function(it){
+var d=document.createElement("div");d.className="item";
+d.innerHTML='<div class="ph"><img alt="'+CATS[it.cat]+'" loading="lazy"></div><p>'+CATS[it.cat]+'</p><button class="x" aria-label="Remove this piece">×</button>';
+d.querySelector("img").src=it.src;
+d.querySelector(".x").onclick=async function(){
+if(!confirm("Remove this piece from your wardrobe?"))return;
+await sb.from("wardrobe_items").delete().eq("id",it.id);
+await sb.storage.from("wardrobe").remove([it.path]);
+loadItems()};
+g.appendChild(d)})}
+
+function pool(c){return items.filter(function(i){return i.cat===c})}
+function pick(c,not){var p=pool(c);if(!p.length)return null;if(p.length>1&&not)p=p.filter(function(i){return i.id!==not});return p[Math.floor(Math.random()*p.length)]}
+function sync(){["top","bottom","shoes"].forEach(function(c){
+if(look[c]){look[c]=items.find(function(i){return i.id===look[c].id})||null}})}
+
+function renderLook(keep){
+var box=$("#lookBox");sync();
+var missing=["top","bottom","shoes"].filter(function(c){return !pool(c).length});
+if(missing.length){
+box.innerHTML='<div class="empty">To style a look, add at least one '+missing.map(function(c){return c==="shoes"?"pair of shoes":c}).join(", one ")+' in step 1.</div>';
+look={top:null,bottom:null,shoes:null};return}
+["top","bottom","shoes"].forEach(function(c){if(!keep||!look[c])look[c]=pick(c,look[c]&&look[c].id)});
+box.innerHTML='<div class="look-row look"></div><div class="acts"><button class="btn" id="again">Style a new look</button></div>';
+var row=box.querySelector(".look-row");
+["top","bottom","shoes"].forEach(function(c){
+var f=document.createElement("figure");
+f.innerHTML='<div class="ph"><img alt="'+CATS[c]+'"></div><figcaption><span>'+CATS[c]+'</span><button>Swap</button></figcaption>';
+f.querySelector("img").src=look[c].src;
+f.querySelector("button").onclick=function(){look[c]=pick(c,look[c].id);renderLook(true)};
+row.appendChild(f)});
+$("#again").onclick=function(){look={top:null,bottom:null,shoes:null};renderLook(false)}}
+
+function seg(sel,fn){document.querySelectorAll(sel+" button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll(sel+" button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});fn(b.dataset.c)}})}
+seg("#upCat",function(c){upCat=c});
+seg("#filter",function(c){flt=c;renderGrid()});
+
+var drop=$("#drop"),file=$("#file");
+drop.onclick=function(){file.click()};
+drop.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();file.click()}};
+file.onchange=function(){addFiles(Array.from(file.files));file.value=""};
+["dragenter","dragover"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add("over")})});
+["dragleave","drop"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove("over")})});
+drop.addEventListener("drop",function(e){addFiles(Array.from(e.dataTransfer.files))});
+
+async function login(){
+var b=$("#loginBtn"),m=$("#loginMsg");
+var email=$("#em").value.trim(),pw=$("#pw").value;
+if(!email||!pw){m.textContent="Please enter your email and password.";return}
+b.disabled=true;m.textContent="";
+var r=await sb.auth.signInWithPassword({email:email,password:pw});
+b.disabled=false;
+if(r.error)m.textContent="Sign in failed: "+r.error.message}
+$("#loginBtn").onclick=login;
+$("#pw").onkeydown=function(e){if(e.key==="Enter")login()};
+$("#out").onclick=function(){sb.auth.signOut()};
+
+function onSession(session){
+if(session&&session.user){
+var first=!user||user.id!==session.user.id;
+user=session.user;show(true);
+if(first){loadItems();clearInterval(timer);timer=setInterval(loadItems,45*60*1000)}
+}else{user=null;items=[];look={top:null,bottom:null,shoes:null};clearInterval(timer);$("#pw").value="";show(false)}}
+
+sb.auth.onAuthStateChange(function(ev,session){setTimeout(function(){onSession(session)},0)});
+sb.auth.getSession().then(function(r){onSession(r.data&&r.data.session)});
+})();
+</script>
+</body>
+</html>
