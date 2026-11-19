@@ -3,123 +3,119 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>My Wardrobe</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wardrobe">
+<meta name="theme-color" content="#f0e7d8">
+<title>Wardrobe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
 <style>
-:root{--bg:#fbf4e4;--ink:#2b2740;--mute:#767089;--line:#eadfc6;--accent:#d6457f;--card:#f1ebff;--p1:#ffb8d6;--p2:#b9e0ff;--p3:#c5f0dc;--p4:#fff1b8;--on:#2b2740;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1824;--ink:#f6f1fb;--mute:#a69fba;--line:#3a3350;--accent:#ff9ec7;--card:#262234;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#1b1824;--ink:#f6f1fb;--mute:#a69fba;--line:#3a3350;--accent:#ff9ec7;--card:#262234;color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+:root{--bg:#f0e7d8;--paper:#f7f1e6;--brown:#4a3125;--soft:#7b6454;--line:#cbb9a1;--bord:#6a1b2c;--bord2:#4d1220;
+--serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--sans:"Work Sans","Helvetica Neue",Arial,sans-serif;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.6 Jost,"Helvetica Neue",Arial,sans-serif}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header{text-align:center;padding:36px 0 14px}
-h1{font:400 clamp(44px,11vw,104px)/.95 "Bodoni Moda",Didot,"Times New Roman",serif;letter-spacing:.01em;margin:0}
-.tag{font-family:"Bodoni Moda",Didot,Georgia,serif;font-style:italic;color:var(--mute);margin:10px 0 0;font-size:18px}
-nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-top:4px solid var(--p1);border-bottom:4px solid var(--p2);display:flex;justify-content:center;gap:clamp(14px,5vw,56px);padding:12px 8px;z-index:5;flex-wrap:wrap}
-nav a,nav button{color:var(--ink);text-decoration:none;font:inherit;font-size:15px;letter-spacing:.04em;background:none;border:0;cursor:pointer;padding:0}
-nav a:hover,nav a:focus-visible,nav button:hover,nav button:focus-visible{color:var(--accent);outline:none;text-decoration:underline;text-underline-offset:6px}
-section{padding:64px 0 24px}
-h2{font:400 clamp(30px,6vw,52px)/1.05 "Bodoni Moda",Didot,Georgia,serif;margin:0 0 6px}
-h2 i{color:var(--accent)}
-.lede{color:var(--mute);max-width:52ch;margin:0 0 28px}
-.rule{border:0;border-top:3px solid var(--p3);margin:0 0 28px}
-.seg{display:flex;border:1px solid var(--ink);width:max-content;max-width:100%;margin-bottom:18px}
-.seg button{background:none;color:var(--ink);border:0;padding:9px 20px;font:inherit;cursor:pointer;border-right:1px solid var(--ink)}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--p1);color:var(--on)}
-.drop{border:2px dashed var(--p1);padding:44px 20px;text-align:center;cursor:pointer;background:var(--card)}
-.drop:hover,.drop.over,.drop:focus-visible{border-color:var(--accent);outline:none}
-.drop b{font:italic 400 22px "Bodoni Moda",Georgia,serif;display:block}
-.drop span{color:var(--mute);font-size:14px}
-.btn{background:var(--p1);color:var(--on);border:1px solid var(--p1);padding:12px 26px;font:inherit;letter-spacing:.04em;cursor:pointer}
-.btn:hover,.btn:focus-visible{background:var(--p2);border-color:var(--p2);color:var(--on);outline:none}
+body{margin:0;background:var(--bg);color:var(--brown);font:400 16px/1.65 var(--sans)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.strip{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--brown);border-bottom:1px solid var(--brown);padding:7px 0;margin-top:16px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+h1{font:300 clamp(56px,17vw,190px)/.9 var(--serif);letter-spacing:-.02em;color:var(--bord);text-align:center;margin:26px 0 8px}
+.deck{text-align:center;font:italic 400 clamp(18px,3vw,26px) var(--serif);color:var(--soft);margin:0 0 26px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-top:1px solid var(--brown);border-bottom:3px double var(--brown);display:flex;justify-content:center;gap:clamp(14px,4vw,48px);flex-wrap:wrap;padding:11px 8px}
+nav a,nav button{font:500 11.5px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--brown);text-decoration:none;background:none;border:0;cursor:pointer;padding:0}
+nav a:hover,nav button:hover,nav a:focus-visible,nav button:focus-visible{color:var(--bord);outline:none;text-decoration:underline;text-underline-offset:6px}
+section{padding:70px 0 10px}
+.sh{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:end;border-top:2px solid var(--brown);padding-top:14px;margin-bottom:28px}
+.no{font:italic 300 clamp(56px,10vw,104px)/.8 var(--serif);color:var(--bord)}
+h2{font:400 clamp(32px,6vw,56px)/1 var(--serif);margin:0;color:var(--brown)}
+h2 i{color:var(--bord)}
+.lede{grid-column:2;margin:8px 0 0;color:var(--soft);max-width:56ch;font-size:15px}
+@media(max-width:560px){.lede{grid-column:1/-1}}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.pills button{font:500 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;background:none;color:var(--brown);border:1px solid var(--brown);padding:10px 16px;cursor:pointer}
+.pills button:hover{border-color:var(--bord);color:var(--bord)}
+.pills button[aria-pressed="true"]{background:var(--bord);border-color:var(--bord);color:var(--paper)}
+select{font:400 13px var(--sans);color:var(--brown);background:var(--paper);border:1px solid var(--line);padding:6px 4px;width:100%;min-width:0}
+.row{display:flex;gap:10px;align-items:center;margin-bottom:16px;max-width:360px}
+.drop{border:1px solid var(--brown);padding:46px 20px;text-align:center;cursor:pointer;background:var(--paper)}
+.drop:hover,.drop.over,.drop:focus-visible{border-color:var(--bord);outline:2px solid var(--bord);outline-offset:3px}
+.drop b{font:italic 400 26px var(--serif);display:block;color:var(--bord)}
+.drop span{color:var(--soft);font-size:13px}
+.btn{background:var(--bord);color:var(--paper);border:0;padding:14px 26px;font:500 12px var(--sans);letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.btn:hover,.btn:focus-visible{background:var(--bord2);outline:none}
 .btn:disabled{opacity:.6;cursor:wait}
-.msg{min-height:24px;margin-top:12px;color:var(--accent);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:22px}
+.msg{min-height:22px;margin-top:12px;color:var(--bord);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:26px 20px}
 .item{position:relative}
-.item .ph,.look .ph{aspect-ratio:3/4;background:var(--card);overflow:hidden}
-.item img,.look img{width:100%;height:100%;object-fit:cover;display:block}
-.item p{margin:8px 0 0;font:italic 400 15px "Bodoni Moda",Georgia,serif;color:var(--mute)}
-.item .x{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);cursor:pointer;font-size:16px;line-height:1;opacity:.92}
-.item .x:hover,.item .x:focus-visible{background:var(--p1);color:var(--on);outline:none}
-.empty{color:var(--mute);font:italic 400 20px "Bodoni Moda",Georgia,serif;padding:30px 0}
-.look-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:6px 0 22px}
-.look figure{margin:0}
-.look figcaption{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font:italic 400 16px "Bodoni Moda",Georgia,serif}
-.look figcaption button{background:none;border:0;color:var(--accent);cursor:pointer;font:300 14px Jost,sans-serif;text-decoration:underline;text-underline-offset:4px}
-.login{max-width:380px;margin:30px auto 0;padding:28px;background:var(--card);border-top:4px solid var(--p1)}
-.login h2{font-size:32px;margin-bottom:16px}
-.login label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
-.login input{width:100%;padding:11px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
-.login input:focus{outline:2px solid var(--p2);border-color:var(--p2)}
-.login .btn{margin-top:20px;width:100%}
-footer{border-top:1px solid var(--ink);margin-top:70px;padding:20px 0 40px;text-align:center;color:var(--mute);font-size:13px}
-@media (max-width:520px){.look-row{gap:8px}.drop{padding:34px 12px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.ph{aspect-ratio:3/4;background:var(--paper);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.meta{display:flex;gap:6px;margin-top:8px}
+.x{position:absolute;top:8px;right:8px;width:30px;height:30px;border:0;border-radius:50%;background:var(--paper);color:var(--brown);cursor:pointer;font-size:17px;line-height:1}
+.x:hover,.x:focus-visible{background:var(--bord);color:var(--paper);outline:none}
+.empty{color:var(--soft);font:italic 400 22px var(--serif);padding:24px 0}
+.kick{font:500 11px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.cover h3{font:300 clamp(40px,8vw,84px)/1 var(--serif);margin:4px 0 18px;color:var(--bord)}
+.cover h3 i{color:var(--brown)}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:10px}
+.trio figure{margin:0}
+.trio figcaption{margin-top:8px;font:italic 400 18px/1.2 var(--serif)}
+.trio figcaption small{display:block;font:500 10.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-style:normal;margin-bottom:2px}
+.ideas{border-left:3px solid var(--bord);padding:2px 0 2px 16px;margin:20px 0;font:italic 400 19px/1.4 var(--serif);color:var(--brown);max-width:70ch}
+.ideas small{display:block;font:400 12px var(--sans);font-style:normal;color:var(--soft);margin-top:6px}
+.ideas a{color:var(--bord)}
+.login{max-width:400px;margin:34px auto;padding:30px;background:var(--paper);border-top:3px solid var(--bord)}
+.login h2{margin-bottom:10px}
+.login label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:14px 0 4px}
+.login input{width:100%;padding:11px;border:1px solid var(--line);background:var(--bg);color:var(--brown);font:inherit}
+.login .btn{margin-top:22px;width:100%}
+footer{border-top:3px double var(--brown);margin-top:80px;padding:18px 0 44px;text-align:center;font:italic 400 17px var(--serif);color:var(--soft)}
+@media(max-width:520px){.trio{gap:8px}.trio figcaption{font-size:15px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header>
-<h1>My Wardrobe</h1>
-<p class="tag">Everything you own, styled every day</p>
-</header>
+<div class="strip"><span id="issue"></span><span>A personal style journal</span><span id="dt"></span></div>
+<h1>Wardrobe</h1>
+<p class="deck">Your closet, edited daily.</p>
 </div>
 
 <div class="wrap" id="loginView" hidden>
-<div class="login">
-<h2>Sign in</h2>
-<div id="loginForm">
+<div class="login"><h2>Sign <i>in</i></h2>
 <label for="em">Email</label><input id="em" type="email" autocomplete="email">
 <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
 <button class="btn" id="loginBtn" type="button">Sign in</button>
-<div class="msg" id="loginMsg" role="status"></div>
-</div>
-</div>
+<div class="msg" id="loginMsg" role="status"></div></div>
 </div>
 
 <div id="appView" hidden>
-<nav aria-label="Sections">
-<a href="#upload">1. Add pieces</a><a href="#collection">2. Collection</a><a href="#looks">3. Looks</a><button id="out" type="button">Sign out</button>
-</nav>
+<nav aria-label="Contents"><a href="#upload">01 Add</a><a href="#collection">02 Closet</a><a href="#looks">03 The Edit</a><button id="out" type="button">Sign out</button></nav>
 <main class="wrap">
+
 <section id="upload">
-<h2>Add to your <i>wardrobe</i></h2>
-<p class="lede">Choose what kind of piece you are adding, then select photos. They are saved privately to your account, so they appear on every device you sign in on.</p>
-<hr class="rule">
-<div class="seg" id="upCat" role="group" aria-label="Category">
-<button aria-pressed="true" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button>
-</div>
-<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose photos">
-<b>Drop photos here</b><span>or tap to choose from your device</span>
-</div>
+<div class="sh"><span class="no">01</span><h2>Add a <i>piece</i></h2>
+<p class="lede">Pick the category and type, then add photos. Colour is detected automatically and you can correct it later. Photos are saved privately to your account.</p></div>
+<div class="pills" id="upCat" role="group" aria-label="Category"><button aria-pressed="true" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button></div>
+<div class="row"><select id="upKind" aria-label="Type"></select></div>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose photos"><b>Drop photos here</b><span>or tap to choose from your device</span></div>
 <input type="file" id="file" accept="image/*" multiple hidden>
 <div class="msg" id="upMsg" role="status"></div>
 </section>
 
 <section id="collection">
-<h2>The <i>collection</i></h2>
-<p class="lede" id="count"></p>
-<hr class="rule">
-<div class="seg" id="filter" role="group" aria-label="Filter">
-<button aria-pressed="true" data-c="all">All</button><button aria-pressed="false" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button>
-</div>
+<div class="sh"><span class="no">02</span><h2>The <i>closet</i></h2><p class="lede" id="count"></p></div>
+<div class="pills" id="filter" role="group" aria-label="Filter"><button aria-pressed="true" data-c="all">All</button><button aria-pressed="false" data-c="top">Tops</button><button aria-pressed="false" data-c="bottom">Bottoms</button><button aria-pressed="false" data-c="shoes">Shoes</button></div>
 <div class="grid" id="grid"></div>
 </section>
 
 <section id="looks">
-<h2>Today’s <i>look</i></h2>
-<p class="lede">A top, a bottom and shoes, chosen from what you own. Swap a single piece or style a whole new outfit.</p>
-<hr class="rule">
+<div class="sh"><span class="no">03</span><h2>The <i>edit</i></h2>
+<p class="lede">Choose a dress code. I look up what it calls for on the open web, then build a top, bottom and shoes from your own closet.</p></div>
+<div class="pills" id="styles" role="group" aria-label="Style"></div>
 <div id="lookBox"></div>
 </section>
 </main>
-<footer>Your photos are private and stored in your own account.</footer>
+<footer>Private, and yours alone.</footer>
 </div>
 
 <script>
@@ -127,91 +123,169 @@ footer{border-top:1px solid var(--ink);margin-top:70px;padding:20px 0 40px;text-
 var SB_URL="https://hvvuttfiifjqypahucxs.supabase.co";
 var SB_KEY="sb_publishable_KcshOHaYXv4ZywHpB8eP3g_wuKoIG6d";
 var CATS={top:"Top",bottom:"Bottom",shoes:"Shoes"};
+var KINDS={top:["tee","shirt","blouse","knit","sweatshirt","blazer"],bottom:["jeans","trousers","chinos","skirt","shorts","leggings"],shoes:["sneakers","loafers","flats","heels","boots","oxfords","sandals"]};
+var FORM={tee:1,sweatshirt:1,knit:3,shirt:3.2,blouse:3.4,blazer:4.2,jeans:2,shorts:1,leggings:1,chinos:3,trousers:4,skirt:3,sneakers:1,sandals:1,boots:2.5,flats:3,loafers:3.5,oxfords:5,heels:4.5};
+var KW={tee:["t-shirt","tee"],shirt:["shirt","oxford","button-down","polo"],blouse:["blouse"],knit:["sweater","cardigan","knit","jumper"],sweatshirt:["sweatshirt","hoodie"],blazer:["blazer","jacket","suit"],jeans:["jeans","denim"],trousers:["trousers","slacks","pants"],chinos:["chinos","khaki"],skirt:["skirt"],shorts:["shorts"],leggings:["leggings"],sneakers:["sneakers","trainers"],loafers:["loafers"],flats:["flats"],heels:["heels","pumps"],boots:["boots"],oxfords:["dress shoes","derby","brogues"],sandals:["sandals"]};
+var STYLES={casual:{n:"Casual",t:1.6,q:["Casual wear","Smart casual"]},smart:{n:"Smart casual",t:2.6,q:["Smart casual","Casual wear"]},biz:{n:"Business casual",t:3.3,q:["Business casual","Business attire"]},formal:{n:"Formal",t:4.6,q:["Formal wear","Business attire"]},evening:{n:"Evening",t:4.3,q:["Semi-formal","Cocktail dress"]}};
+var COLORS=["black","white","grey","charcoal","navy","blue","teal","green","olive","yellow","orange","brown","camel","cream","beige","red","burgundy","pink","purple"];
+var NEU=["black","white","grey","charcoal","navy","cream","beige","brown","camel"];
 var $=function(s){return document.querySelector(s)};
-var sb=window.supabase.createClient(SB_URL,SB_KEY);
-var user=null,items=[],upCat="top",flt="all",look={top:null,bottom:null,shoes:null},timer=null;
+var store;try{localStorage.setItem("_t","1");localStorage.removeItem("_t");store=localStorage}catch(e){var mm={};store={getItem:function(k){return k in mm?mm[k]:null},setItem:function(k,v){mm[k]=v},removeItem:function(k){delete mm[k]}}}
+var sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storage:store}});
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+document.addEventListener("visibilitychange",function(){if(!document.hidden)sb.auth.getSession()});
 
-function show(signedIn){$("#loginView").hidden=signedIn;$("#appView").hidden=!signedIn}
+var user=null,items=[],upCat="top",flt="all",meta=true,cur=null,look=null,ideas={},seen={},tok=0,timer=null;
+var d=new Date();$("#issue").textContent="Issue Nº "+(d.getMonth()+1);$("#dt").textContent=d.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+function opts(list,ph){return '<option value="">'+ph+'</option>'+list.map(function(k){return '<option value="'+k+'">'+k+'</option>'}).join("")}
+function fillKind(){$("#upKind").innerHTML=opts(KINDS[upCat],"Type (optional)")}fillKind();
+function show(v){$("#loginView").hidden=v;$("#appView").hidden=!v}
 
-async function loadItems(){
-var r=await sb.from("wardrobe_items").select("id,category,path,created_at").order("created_at",{ascending:false});
-if(r.error){$("#upMsg").textContent="Could not load your wardrobe: "+r.error.message;return}
-var rows=r.data||[],urls={};
-if(rows.length){
-var s=await sb.storage.from("wardrobe").createSignedUrls(rows.map(function(x){return x.path}),3600);
-if(s.data)s.data.forEach(function(u){urls[u.path]=u.signedUrl})}
-items=rows.map(function(x){return{id:x.id,cat:x.category,path:x.path,t:Date.parse(x.created_at),src:urls[x.path]||""}});
-renderGrid();renderLook(true)}
+/* colour detection */
+function nameColor(r,g,b){
+var mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/510,df=mx-mn,s=df?df/(255-Math.abs(mx+mn-255)):0,h=0;
+if(df){h=mx===r?((g-b)/df)%6:mx===g?(b-r)/df+2:(r-g)/df+4;h=(h*60+360)%360}
+if(l<.13)return"black";
+if(l>.88)return"white";
+if(s<.13)return l<.3?"charcoal":l<.7?"grey":"white";
+if(h>=15&&h<60&&s<.5&&l>.55)return l>.8?"cream":"beige";
+if(h<15||h>=345)return l<.3?"burgundy":l>.7?"pink":"red";
+if(h<40)return l<.38?"brown":s<.6?"camel":"orange";
+if(h<65)return l<.4?"olive":"yellow";
+if(h<95)return l<.55?"olive":"green";
+if(h<165)return"green";
+if(h<200)return"teal";
+if(h<255)return l<.3?"navy":"blue";
+if(h<295)return"purple";
+return l>.65?"pink":l<.3?"burgundy":"purple"}
+function avgName(ctx,x,y,w,h){
+var p=ctx.getImageData(x,y,w,h).data,R=0,G=0,B=0,n=0,R2=0,G2=0,B2=0,m=0;
+for(var i=0;i<p.length;i+=16){R2+=p[i];G2+=p[i+1];B2+=p[i+2];m++;if(p[i]+p[i+1]+p[i+2]<690){R+=p[i];G+=p[i+1];B+=p[i+2];n++}}
+if(n<m*.1){R=R2;G=G2;B=B2;n=m}
+return nameColor(R/n,G/n,B/n)}
 
 function shrink(file){return new Promise(function(res,rej){
 var fr=new FileReader();fr.onerror=rej;
 fr.onload=function(){var im=new Image();im.onerror=rej;
-im.onload=function(){var m=1000,s=Math.min(1,m/Math.max(im.width,im.height));
-var c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
-c.getContext("2d").drawImage(im,0,0,c.width,c.height);
-c.toBlob(function(b){b?res(b):rej()},"image/jpeg",.82)};
-im.src=fr.result};
-fr.readAsDataURL(file)})}
+im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");
+c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+var cx=c.getContext("2d");cx.drawImage(im,0,0,c.width,c.height);
+var col=null;try{col=avgName(cx,Math.floor(c.width*.3),Math.floor(c.height*.25),Math.floor(c.width*.4),Math.floor(c.height*.5))}catch(e){}
+c.toBlob(function(b){b?res({blob:b,color:col}):rej()},"image/jpeg",.82)};
+im.src=fr.result};fr.readAsDataURL(file)})}
+
+/* data */
+async function loadItems(){
+var r=await sb.from("wardrobe_items").select("id,category,kind,color,path,created_at").order("created_at",{ascending:false});
+if(r.error&&/kind|color|column/i.test(r.error.message)){meta=false;r=await sb.from("wardrobe_items").select("id,category,path,created_at").order("created_at",{ascending:false})}
+if(r.error){$("#upMsg").textContent="Could not load your wardrobe: "+r.error.message;return}
+var rows=r.data||[],urls={};
+if(rows.length){var s=await sb.storage.from("wardrobe").createSignedUrls(rows.map(function(x){return x.path}),3600);
+if(s.data)s.data.forEach(function(u){urls[u.path]=u.signedUrl})}
+items=rows.map(function(x){return{id:x.id,cat:x.category,kind:x.kind||"",color:x.color||"",path:x.path,src:urls[x.path]||""}});
+renderGrid();refreshLook()}
 
 async function addFiles(files){
-var ok=0,bad=0,m=$("#upMsg");m.textContent="Uploading…";
+var ok=0,bad=0,m=$("#upMsg"),kind=$("#upKind").value;m.textContent="Uploading…";
 for(var i=0;i<files.length;i++){
 if(!/^image\//.test(files[i].type)){bad++;continue}
-try{
-var blob=await shrink(files[i]);
+try{var o=await shrink(files[i]);
 var path=user.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
-var up=await sb.storage.from("wardrobe").upload(path,blob,{contentType:"image/jpeg"});
-if(up.error)throw up.error;
-var ins=await sb.from("wardrobe_items").insert({category:upCat,path:path});
+var up=await sb.storage.from("wardrobe").upload(path,o.blob,{contentType:"image/jpeg"});if(up.error)throw up.error;
+var row={category:upCat,path:path};if(meta){row.kind=kind||null;row.color=o.color}
+var ins=await sb.from("wardrobe_items").insert(row);
 if(ins.error){await sb.storage.from("wardrobe").remove([path]);throw ins.error}
 ok++}catch(e){bad++}}
 await loadItems();
-m.textContent=(ok?ok+" added to "+CATS[upCat].toLowerCase()+"s. ":"")+(bad?bad+" could not be uploaded — use JPG or PNG photos and check your connection.":"")}
+m.textContent=(ok?ok+" added. ":"")+(bad?bad+" could not be uploaded. Use JPG or PNG photos.":"")}
+
+async function setMeta(it,f,v){it[f]=v;if(!meta)return;var o={};o[f]=v||null;await sb.from("wardrobe_items").update(o).eq("id",it.id)}
 
 function renderGrid(){
 var list=items.filter(function(i){return flt==="all"||i.cat===flt});
 var n=function(c){return items.filter(function(i){return i.cat===c}).length};
-$("#count").textContent=items.length?items.length+" pieces: "+n("top")+" tops, "+n("bottom")+" bottoms, "+n("shoes")+" shoes.":"";
+$("#count").textContent=items.length?items.length+" pieces: "+n("top")+" tops, "+n("bottom")+" bottoms, "+n("shoes")+" shoes."+(meta?" Set each piece’s type and colour so the edit can match them.":" Run the SQL update to turn on type and colour tags."):"";
 var g=$("#grid");g.innerHTML="";
-if(!list.length){g.innerHTML='<div class="empty">'+(items.length?"Nothing in this category yet.":"Your wardrobe is empty. Add your first piece above.")+"</div>";return}
+if(!list.length){g.innerHTML='<div class="empty">'+(items.length?"Nothing in this category yet.":"Your closet is empty. Add your first piece above.")+"</div>";return}
 list.forEach(function(it){
-var d=document.createElement("div");d.className="item";
-d.innerHTML='<div class="ph"><img alt="'+CATS[it.cat]+'" loading="lazy"></div><p>'+CATS[it.cat]+'</p><button class="x" aria-label="Remove this piece">×</button>';
-d.querySelector("img").src=it.src;
-d.querySelector(".x").onclick=async function(){
-if(!confirm("Remove this piece from your wardrobe?"))return;
-await sb.from("wardrobe_items").delete().eq("id",it.id);
-await sb.storage.from("wardrobe").remove([it.path]);
-loadItems()};
-g.appendChild(d)})}
+var el=document.createElement("div");el.className="item";
+el.innerHTML='<div class="ph"><img alt="'+CATS[it.cat]+'" loading="lazy"></div>'+(meta?'<div class="meta"><select class="k" aria-label="Type">'+opts(KINDS[it.cat],"Type")+'</select><select class="c" aria-label="Colour">'+opts(COLORS,"Colour")+'</select></div>':'')+'<button class="x" aria-label="Remove this piece">×</button>';
+el.querySelector("img").src=it.src;
+if(meta){var k=el.querySelector(".k"),c=el.querySelector(".c");k.value=it.kind;c.value=it.color;
+k.onchange=function(){setMeta(it,"kind",k.value)};c.onchange=function(){setMeta(it,"color",c.value)}}
+el.querySelector(".x").onclick=async function(){
+if(!confirm("Remove this piece from your closet?"))return;
+await sb.from("wardrobe_items").delete().eq("id",it.id);await sb.storage.from("wardrobe").remove([it.path]);loadItems()};
+g.appendChild(el)})}
 
+/* the edit */
 function pool(c){return items.filter(function(i){return i.cat===c})}
-function pick(c,not){var p=pool(c);if(!p.length)return null;if(p.length>1&&not)p=p.filter(function(i){return i.id!==not});return p[Math.floor(Math.random()*p.length)]}
-function sync(){["top","bottom","shoes"].forEach(function(c){
-if(look[c]){look[c]=items.find(function(i){return i.id===look[c].id})||null}})}
+function missingCats(){return["top","bottom","shoes"].filter(function(c){return !pool(c).length})}
+async function fetchIdeas(key){
+if(ideas[key])return ideas[key];
+var cnt={},src=[],ok=false;
+await Promise.all(STYLES[key].q.map(async function(t){
+try{var r=await fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&redirects=1&prop=extracts&explaintext=1&origin=*&titles="+encodeURIComponent(t));
+var j=await r.json(),p=j.query&&j.query.pages&&j.query.pages[0];
+if(p&&p.extract){ok=true;var tx=p.extract.toLowerCase();
+src.push({t:p.title,u:"https://en.wikipedia.org/wiki/"+encodeURIComponent(p.title.replace(/ /g,"_"))});
+Object.keys(KW).forEach(function(k){KW[k].forEach(function(w){var m=tx.match(new RegExp("\\b"+w+"s?\\b","g"));if(m)cnt[k]=(cnt[k]||0)+m.length})})}}catch(e){}}));
+var o={cnt:cnt,src:src,ok:ok,list:Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]}).slice(0,7)};
+if(ok)ideas[key]=o;return o}
 
-function renderLook(keep){
-var box=$("#lookBox");sync();
-var missing=["top","bottom","shoes"].filter(function(c){return !pool(c).length});
-if(missing.length){
-box.innerHTML='<div class="empty">To style a look, add at least one '+missing.map(function(c){return c==="shoes"?"pair of shoes":c}).join(", one ")+' in step 1.</div>';
-look={top:null,bottom:null,shoes:null};return}
-["top","bottom","shoes"].forEach(function(c){if(!keep||!look[c])look[c]=pick(c,look[c]&&look[c].id)});
-box.innerHTML='<div class="look-row look"></div><div class="acts"><button class="btn" id="again">Style a new look</button></div>';
-var row=box.querySelector(".look-row");
-["top","bottom","shoes"].forEach(function(c){
-var f=document.createElement("figure");
-f.innerHTML='<div class="ph"><img alt="'+CATS[c]+'"></div><figcaption><span>'+CATS[c]+'</span><button>Swap</button></figcaption>';
-f.querySelector("img").src=look[c].src;
-f.querySelector("button").onclick=function(){look[c]=pick(c,look[c].id);renderLook(true)};
-row.appendChild(f)});
-$("#again").onclick=function(){look={top:null,bottom:null,shoes:null};renderLook(false)}}
+function chooseStyle(key){
+cur=key;look=null;seen[key]=new Set();
+document.querySelectorAll("#styles button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.s===key)});
+var miss=missingCats();if(miss.length){refreshLook();return}
+var my=++tok;$("#lookBox").innerHTML='<div class="empty">Searching the web for '+STYLES[key].n.toLowerCase()+' ideas…</div>';
+fetchIdeas(key).then(function(id){if(my!==tok)return;ideas[key]=ideas[key]||id;makeLook(true)})}
 
-function seg(sel,fn){document.querySelectorAll(sel+" button").forEach(function(b){b.onclick=function(){
-document.querySelectorAll(sel+" button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});fn(b.dataset.c)}})}
-seg("#upCat",function(c){upCat=c});
+function harmony(a,b,c,t){
+var cols=[a.color,b.color,c.color].filter(Boolean),loud=cols.filter(function(x){return NEU.indexOf(x)<0}),u={};loud.forEach(function(x){u[x]=1});
+var s=0;if(Object.keys(u).length>1)s-=1.6;if(loud.length>2)s-=1;if(t>=3.2)s+=(3-loud.length)*.3;
+if(cols.indexOf("black")>=0&&cols.indexOf("brown")>=0)s-=.5;
+if(cols.indexOf("black")>=0&&cols.indexOf("navy")>=0)s-=.3;return s}
+
+function makeLook(best){
+var st=STYLES[cur],id=ideas[cur]||{cnt:{},src:[],ok:false,list:[]};
+var T=pool("top"),B=pool("bottom"),S=pool("shoes");
+var sc=function(it){var f=FORM[it.kind];if(f==null)f=2.5;var w=id.cnt[it.kind]?Math.min(1.2,Math.log(1+id.cnt[it.kind])*.45):0;return -Math.abs(f-st.t)+w};
+var all=[],push=function(t,b,f){all.push({t:t,b:b,f:f,k:t.id+b.id+f.id,sc:sc(t)+sc(b)+sc(f)+harmony(t,b,f,st.t)})};
+if(T.length*B.length*S.length<=4000){T.forEach(function(t){B.forEach(function(b){S.forEach(function(f){push(t,b,f)})})})}
+else for(var i=0;i<4000;i++)push(T[Math.floor(Math.random()*T.length)],B[Math.floor(Math.random()*B.length)],S[Math.floor(Math.random()*S.length)]);
+var sn=seen[cur],fresh=all.filter(function(c){return !sn.has(c.k)});
+if(!fresh.length){sn.clear();fresh=all}
+fresh.sort(function(a,b){return b.sc-a.sc});
+var K=Math.min(fresh.length,25,Math.max(5,Math.ceil(fresh.length*.12)));
+var c=best?fresh[0]:fresh[Math.floor(Math.random()*K)];
+sn.add(c.k);look={top:c.t,bottom:c.b,shoes:c.f};renderLook()}
+
+function refreshLook(){
+var box=$("#lookBox"),miss=missingCats();
+if(miss.length){look=null;box.innerHTML='<div class="empty">To style a look, add at least one '+miss.map(function(c){return c==="shoes"?"pair of shoes":c}).join(", one ")+' in step 01.</div>';return}
+if(!cur){box.innerHTML='<div class="empty">Choose a style above to begin.</div>';return}
+if(!ideas[cur])return;
+if(look){["top","bottom","shoes"].forEach(function(c){look[c]=items.find(function(i){return i.id===look[c].id})||null});
+if(look.top&&look.bottom&&look.shoes){renderLook();return}}
+makeLook(true)}
+
+function renderLook(){
+var box=$("#lookBox"),st=STYLES[cur],id=ideas[cur]||{src:[],list:[],ok:false};
+var untagged=items.filter(function(i){return !i.kind}).length>items.length/2;
+var idea=id.ok&&id.list.length?'<div class="ideas">From the web, '+st.n.toLowerCase()+' leans on '+id.list.join(", ")+'.<small>Sources: '+id.src.map(function(s){return '<a href="'+s.u+'" target="_blank" rel="noopener">'+s.t+'</a> (Wikipedia)'}).join(", ")+'</small></div>':'<div class="ideas">I couldn’t reach the web just now, so this look uses built-in rules for '+st.n.toLowerCase()+'.</div>';
+box.innerHTML='<div class="cover"><div class="kick">The edit · '+st.n+'</div><h3>'+st.n.split(" ")[0]+(st.n.indexOf(" ")>0?' <i>'+st.n.split(" ").slice(1).join(" ")+'</i>':'')+'</h3><div class="trio"></div>'+idea+(untagged?'<p class="lede">Tip: tag your pieces with a type and colour in the closet for sharper matches.</p>':'')+'<button class="btn" id="rnd" type="button">Randomise</button></div>';
+var tr=box.querySelector(".trio");
+["top","bottom","shoes"].forEach(function(c){var it=look[c],f=document.createElement("figure");
+f.innerHTML='<div class="ph"><img alt="'+CATS[c]+'"></div><figcaption><small>'+CATS[c]+'</small>'+((it.color+" "+it.kind).trim()||"&nbsp;")+'</figcaption>';
+f.querySelector("img").src=it.src;tr.appendChild(f)});
+$("#rnd").onclick=function(){makeLook(false)}}
+
+/* wiring */
+document.getElementById("styles").innerHTML=Object.keys(STYLES).map(function(k){return '<button aria-pressed="false" data-s="'+k+'">'+STYLES[k].n+'</button>'}).join("");
+document.querySelectorAll("#styles button").forEach(function(b){b.onclick=function(){chooseStyle(b.dataset.s)}});
+function seg(sel,fn){document.querySelectorAll(sel+" button").forEach(function(b){b.onclick=function(){document.querySelectorAll(sel+" button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});fn(b.dataset.c)}})}
+seg("#upCat",function(c){upCat=c;fillKind()});
 seg("#filter",function(c){flt=c;renderGrid()});
-
 var drop=$("#drop"),file=$("#file");
 drop.onclick=function(){file.click()};
 drop.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();file.click()}};
@@ -221,25 +295,20 @@ file.onchange=function(){addFiles(Array.from(file.files));file.value=""};
 drop.addEventListener("drop",function(e){addFiles(Array.from(e.dataTransfer.files))});
 
 async function login(){
-var b=$("#loginBtn"),m=$("#loginMsg");
-var email=$("#em").value.trim(),pw=$("#pw").value;
+var b=$("#loginBtn"),m=$("#loginMsg"),email=$("#em").value.trim(),pw=$("#pw").value;
 if(!email||!pw){m.textContent="Please enter your email and password.";return}
 b.disabled=true;m.textContent="";
-var r=await sb.auth.signInWithPassword({email:email,password:pw});
-b.disabled=false;
+var r=await sb.auth.signInWithPassword({email:email,password:pw});b.disabled=false;
 if(r.error)m.textContent="Sign in failed: "+r.error.message}
 $("#loginBtn").onclick=login;
 $("#pw").onkeydown=function(e){if(e.key==="Enter")login()};
 $("#out").onclick=function(){sb.auth.signOut()};
 
-function onSession(session){
-if(session&&session.user){
-var first=!user||user.id!==session.user.id;
-user=session.user;show(true);
-if(first){loadItems();clearInterval(timer);timer=setInterval(loadItems,45*60*1000)}
-}else{user=null;items=[];look={top:null,bottom:null,shoes:null};clearInterval(timer);$("#pw").value="";show(false)}}
-
-sb.auth.onAuthStateChange(function(ev,session){setTimeout(function(){onSession(session)},0)});
+function onSession(s){
+if(s&&s.user){var first=!user||user.id!==s.user.id;user=s.user;show(true);
+if(first){loadItems();clearInterval(timer);timer=setInterval(loadItems,45*60*1000)}}
+else{user=null;items=[];look=null;cur=null;clearInterval(timer);$("#pw").value="";show(false)}}
+sb.auth.onAuthStateChange(function(ev,s){setTimeout(function(){onSession(s)},0)});
 sb.auth.getSession().then(function(r){onSession(r.data&&r.data.session)});
 })();
 </script>
