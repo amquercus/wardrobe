@@ -164,15 +164,24 @@ for(var i=0;i<p.length;i+=16){R2+=p[i];G2+=p[i+1];B2+=p[i+2];m++;if(p[i]+p[i+1]+
 if(n<m*.1){R=R2;G=G2;B=B2;n=m}
 return nameColor(R/n,G/n,B/n)}
 
-function shrink(file){return new Promise(function(res,rej){
-var fr=new FileReader();fr.onerror=rej;
-fr.onload=function(){var im=new Image();im.onerror=rej;
-im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");
-c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
-var cx=c.getContext("2d");cx.drawImage(im,0,0,c.width,c.height);
+function loadScript(u){return new Promise(function(res,rej){var t=document.createElement("script");t.src=u;t.onload=res;t.onerror=function(){rej(new Error("could not load the photo converter"))};document.head.appendChild(t)})}
+function viaImg(f){return new Promise(function(res,rej){var u=URL.createObjectURL(f),im=new Image();
+im.onload=function(){URL.revokeObjectURL(u);res(im)};im.onerror=function(){URL.revokeObjectURL(u);rej(new Error("this photo format can’t be read"))};im.src=u})}
+function decode(f){return window.createImageBitmap?createImageBitmap(f).catch(function(){return viaImg(f)}):viaImg(f)}
+async function shrink(file){
+var src;
+try{src=await decode(file)}catch(e){
+if(/heic|heif/i.test(file.type+file.name)){
+if(!window.heic2any)await loadScript("https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js");
+var cv=await window.heic2any({blob:file,toType:"image/jpeg",quality:.85});
+src=await decode(Array.isArray(cv)?cv[0]:cv)}else throw e}
+var s=Math.min(1,1000/Math.max(src.width,src.height)),c=document.createElement("canvas");
+c.width=Math.round(src.width*s);c.height=Math.round(src.height*s);
+var cx=c.getContext("2d");cx.drawImage(src,0,0,c.width,c.height);
 var col=null;try{col=avgName(cx,Math.floor(c.width*.3),Math.floor(c.height*.25),Math.floor(c.width*.4),Math.floor(c.height*.5))}catch(e){}
-c.toBlob(function(b){b?res({blob:b,color:col}):rej()},"image/jpeg",.82)};
-im.src=fr.result};fr.readAsDataURL(file)})}
+var blob=await new Promise(function(r){c.toBlob(r,"image/jpeg",.82)});
+if(!blob)throw new Error("could not process the photo");
+return{blob:blob,color:col}}
 
 /* data */
 async function loadItems(){
@@ -186,18 +195,17 @@ items=rows.map(function(x){return{id:x.id,cat:x.category,kind:x.kind||"",color:x
 renderGrid();refreshLook()}
 
 async function addFiles(files){
-var ok=0,bad=0,m=$("#upMsg"),kind=$("#upKind").value;m.textContent="Uploading…";
+var ok=0,bad=0,err="",m=$("#upMsg"),kind=$("#upKind").value;m.textContent="Uploading…";
 for(var i=0;i<files.length;i++){
-if(!/^image\//.test(files[i].type)){bad++;continue}
 try{var o=await shrink(files[i]);
 var path=user.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
 var up=await sb.storage.from("wardrobe").upload(path,o.blob,{contentType:"image/jpeg"});if(up.error)throw up.error;
 var row={category:upCat,path:path};if(meta){row.kind=kind||null;row.color=o.color}
 var ins=await sb.from("wardrobe_items").insert(row);
 if(ins.error){await sb.storage.from("wardrobe").remove([path]);throw ins.error}
-ok++}catch(e){bad++}}
+ok++}catch(e){bad++;err=err||(e&&e.message)||String(e)}}
 await loadItems();
-m.textContent=(ok?ok+" added. ":"")+(bad?bad+" could not be uploaded. Use JPG or PNG photos.":"")}
+m.textContent=(ok?ok+" added. ":"")+(bad?bad+" could not be added"+(err?" ("+err+")":"")+".":"")}
 
 async function setMeta(it,f,v){it[f]=v;if(!meta)return;var o={};o[f]=v||null;await sb.from("wardrobe_items").update(o).eq("id",it.id)}
 
